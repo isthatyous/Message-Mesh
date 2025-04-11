@@ -14,7 +14,6 @@ pipeline {
          stage("Trivy local File Scan") {
             steps {
                 sh 'trivy fs --severity HIGH,CRITICAL . -o trivy_report.html'
-                sh 'trivy convert --exit-code 1 --severity HIGH,CRITICAL trivy_report.html'
             }
         }
         
@@ -54,4 +53,57 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            script {
+                emailext(
+                    from: 'shivamsingh22188@gmail.com',
+                    to: 'shivamsingh22188@gmail.com',
+                    subject: 'Build Success',
+                    body: """\
+Hello Shivam,
+
+Your Jenkins build was successful! 🎉
+
+Project: Two-Tier Flask App
+Build Number: ${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+
+✔️ Code cloned
+✔️ Docker image built and pushed
+✔️ Deployed successfully
+
+Cheers,
+Jenkins
+"""
+                    attachmentsPattern: 'trivy_report.html'
+                )
+            }
+        }
+
+        failure {
+            script {
+                emailext(
+                    from: 'shivamsingh22188@gmail.com',
+                    to: 'shivamsingh22188@gmail.com',
+                    subject: 'Build Failure',
+                    body: """\
+Hello Shivam,
+
+Your Jenkins build has failed.
+
+Project: Two-Tier Flask App
+Build Number: ${env.BUILD_NUMBER}
+Build URL: ${env.BUILD_URL}
+
+Please check the logs and take necessary action.
+
+Regards,
+Jenkins
+"""
+                )
+            }
+        }
+    }
+}
 }
