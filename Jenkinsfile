@@ -13,7 +13,7 @@ pipeline {
         }
          stage("Trivy local File Scan") {
             steps {
-                sh 'trivy fs --severity HIGH,CRITICAL . -o trivy_report.txt'
+                sh 'trivy fs --severity HIGH,CRITICAL . -o file-system-trivy-report.txt'
             }
         }
         
@@ -28,7 +28,11 @@ pipeline {
                 echo "Developer / Tester tests likh ke dega..."
             }
         }
-
+        stage("Trivy Docker Image Scan"){
+            steps {
+                sh "trivy image --severity HIGH,CRITICAL ${IMAGE_NAME} -o docker-image-trivy-report.txt"
+            }
+        }
         stage("Push to Docker Hub") {
             steps {
                 withCredentials([usernamePassword(
@@ -57,7 +61,7 @@ pipeline {
         success {
             script {
                 emailext (
-                    attachmentsPattern: 'trivy_report.txt',
+                    attachmentsPattern: 'file-system-trivy-report.txt', 'docker-image-trivy-report.txt',
                     from: 'shivamsingh22188@gmail.com',
                     to: 'shivamsingh22188@gmail.com',
                     subject: 'Build Success',
