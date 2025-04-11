@@ -13,7 +13,7 @@ pipeline {
         }
          stage("Trivy local File Scan") {
             steps {
-                sh 'trivy fs --severity HIGH,CRITICAL . -o trivy_report.html'
+                sh 'trivy fs --severity HIGH,CRITICAL . -o trivy_report.txt'
             }
         }
         
@@ -57,7 +57,7 @@ pipeline {
         success {
             script {
                 emailext (
-                    attachmentsPattern: 'trivy_report.html',
+                    attachmentsPattern: 'trivy_report.txt',
                     from: 'shivamsingh22188@gmail.com',
                     to: 'shivamsingh22188@gmail.com',
                     subject: 'Build Success',
