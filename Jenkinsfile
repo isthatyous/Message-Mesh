@@ -13,7 +13,7 @@ pipeline {
         }
          stage("Trivy Scan") {
             steps {
-                echo 'Scanning the File System for CRITICAL severity'
+                echo 'Scanning the File System for CRITICAL severity.'
                 trivy fs --severity HIGH,CRITICAL . -o trivy_report.html
                 trivy convert --exit-code 1 --severity HIGH,CRITICAL trivy_report.html
             }
