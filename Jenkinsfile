@@ -11,6 +11,15 @@ pipeline {
                 git url: "https://github.com/isthatyous/two-tier-flask-app.git", branch: "master"
             }
         }
+         stage("Trivy Scan") {
+            steps {
+                echo 'Scanning the File System for CRITICAL severity'
+                trivy fs --severity HIGH,CRITICAL . -o trivy_report.html
+                trivy convert --exit-code 1 --severity HIGH,CRITICAL trivy_report.html
+            }
+        }
+        
+
 
         stage("Build") {
             steps {
