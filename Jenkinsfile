@@ -61,7 +61,7 @@ pipeline {
         success {
             script {
                 emailext (
-                    attachmentsPattern: 'file-system-trivy-report.txt', 'docker-image-trivy-report.txt',
+                    attachmentsPattern: 'file-system-trivy-report.txt , docker-image-trivy-report.txt',
                     from: 'shivamsingh22188@gmail.com',
                     to: 'shivamsingh22188@gmail.com',
                     subject: 'Build Success',
