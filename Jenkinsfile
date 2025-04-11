@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage("Code Clone") {
+        stage("Code  Clone") {
             steps {
                 git url: "https://github.com/isthatyous/two-tier-flask-app.git", branch: "master"
             }
