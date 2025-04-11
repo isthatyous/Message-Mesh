@@ -56,7 +56,8 @@ pipeline {
     post {
         success {
             script {
-                emailext attachmentsPattern: 'generatedFile.html',
+                emailext (
+                    attachmentsPattern: 'trivy_report.html',
                     from: 'shivamsingh22188@gmail.com',
                     to: 'shivamsingh22188@gmail.com',
                     subject: 'Build Success',
@@ -76,14 +77,14 @@ Build URL: ${env.BUILD_URL}
 Cheers,
 Jenkins
 """
-                    
+              )      
                 
             }
         }
 
         failure {
             script {
-                emailext
+                emailext(
                     from: 'shivamsingh22188@gmail.com',
                     to: 'shivamsingh22188@gmail.com',
                     subject: 'Build Failure',
@@ -101,7 +102,7 @@ Please check the logs and take necessary action.
 Regards,
 Jenkins
 """
-                
+                )
             }
         }
     }
