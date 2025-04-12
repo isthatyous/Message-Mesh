@@ -40,14 +40,14 @@ pipeline {
         stage("Trivy Docker Image Scan"){
             steps {
                  script{
-                    trivy_docker_image('env.IMAGE_NAME')
+                    trivy_docker_image(IMAGE_NAME)
                 }
             }
         }
         stage("Push to Docker Hub") {
             steps {
                     script {
-                        push('env.Dockerhub-creds','env.IMAGE_NAME')
+                        push(Dockerhub-creds,IMAGE_NAME)
                     }
                 }
             }
