@@ -4,6 +4,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "two-tier-flask-app"
+        DOCKERHUB_CREDS = credentials('dockerhub-creds')
     }
 
     stages {
@@ -25,7 +26,7 @@ pipeline {
         stage("Build") {
             steps {
                 script{
-                    build(IMAGE_NAME)
+                    build(env.IMAGE_NAME)
                 }
             }
         }
@@ -40,14 +41,14 @@ pipeline {
         stage("Trivy Docker Image Scan"){
             steps {
                  script{
-                    trivy_docker_image(IMAGE_NAME)
+                    trivy_docker_image(env.IMAGE_NAME)
                 }
             }
         }
         stage("Push to Docker Hub") {
             steps {
                     script {
-                        push(Dockerhub-creds,IMAGE_NAME)
+                        push(env.DOCKERHUB_CREDS,env.IMAGE_NAME)
                     }
                 }
             }
