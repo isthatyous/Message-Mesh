@@ -4,7 +4,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = "two-tier-flask-app"
-        DOCKERHUB_CREDS = credentials('dockerhub-creds')
     }
 
     stages {
