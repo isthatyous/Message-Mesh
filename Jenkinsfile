@@ -1,3 +1,4 @@
+@Library('shared-library')_
 pipeline {
     agent { label "dev" };
 
@@ -8,44 +9,45 @@ pipeline {
     stages {
         stage("Code  Clone") {
             steps {
-                git url: "https://github.com/isthatyous/two-tier-flask-app.git", branch: "master"
+                script{
+                    clone("https://github.com/isthatyous/two-tier-flask-app.git","master")
+                }
             }
         }
          stage("Trivy local File Scan") {
             steps {
-                sh 'trivy fs --severity HIGH,CRITICAL . -o file-system-trivy-report.txt'
+                script{
+                    trivy-filesystem()
+                }
             }
         }
         
         stage("Build") {
             steps {
-                sh "docker build -t ${IMAGE_NAME} ."
+                script{
+                    build('env.IMAGE_NAME')
+                }
             }
         }
 
         stage("Test") {
             steps {
-                echo "Developer / Tester tests likh ke dega..."
+                 script{
+                    test()
+                }
             }
         }
         stage("Trivy Docker Image Scan"){
             steps {
-                sh "trivy image --severity HIGH,CRITICAL ${IMAGE_NAME} -o docker-image-trivy-report.txt"
+                 script{
+                    trivy-docker-image('env.IMAGE_NAME')
+                }
             }
         }
         stage("Push to Docker Hub") {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-Creds',
-                    usernameVariable: 'DockerHubUser',
-                    passwordVariable: 'DockerHubPass'
-                )]) {
                     script {
-                        echo "Pushing Image to Docker Hub"
-                        sh "docker image tag ${IMAGE_NAME} ${DockerHubUser}/${IMAGE_NAME}"
-                        sh "docker login -u ${DockerHubUser} -p ${DockerHubPass}"
-                        sh "docker push ${DockerHubUser}/${IMAGE_NAME}"
-                        echo "Image Pushed to Docker Hub Successfully"
+                        push('env.Dockerhub-creds','env.IMAGE_NAME')
                     }
                 }
             }
