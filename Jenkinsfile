@@ -25,7 +25,7 @@ pipeline {
         stage("Build") {
             steps {
                 script{
-                    build('env.IMAGE_NAME')
+                    build(IMAGE_NAME)
                 }
             }
         }
