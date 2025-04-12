@@ -17,7 +17,7 @@ pipeline {
          stage("Trivy local File Scan") {
             steps {
                 script{
-                    trivy-filesystem()
+                    trivy_filesystem()
                 }
             }
         }
@@ -40,7 +40,7 @@ pipeline {
         stage("Trivy Docker Image Scan"){
             steps {
                  script{
-                    trivy-docker-image('env.IMAGE_NAME')
+                    trivy_docker_image('env.IMAGE_NAME')
                 }
             }
         }
@@ -55,7 +55,9 @@ pipeline {
 
         stage("Deploy") {
             steps {
-                sh 'docker compose up -d --build flask-app'
+                script {
+                        deploy()
+                    }
             }
         }
     }
