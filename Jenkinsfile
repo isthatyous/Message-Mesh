@@ -47,7 +47,7 @@ pipeline {
         stage("Push to Docker Hub") {
             steps {
                     script {
-                        push('dockerhub-Creds',env.IMAGE_NAME)
+                        push('dockerhub-Creds','IMAGE_NAME')
                     }
                 }
             }
