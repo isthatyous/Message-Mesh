@@ -135,7 +135,7 @@ docker run -d \
 ![Architecture](images/architecture.png)
 
 ### ⚙️ CI/CD Pipeline
-![Pipeline](images/pipeline.png)
+![Pipeline](images/pipeline_image.png)
 
 ### 📸 App Output
 ![Output Screen](images/output_screen.png)
