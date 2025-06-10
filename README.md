@@ -125,6 +125,21 @@ docker run -d \
 - Be cautious when executing SQL queries directly. Validate and sanitize user inputs to prevent vulnerabilities like SQL injection.
 
 - If you encounter issues, check Docker logs and error messages for troubleshooting.
+- 
+
+
+
+## Project Screenshots
+
+### 🖥️ Architecture
+![Architecture](images/architecture.png)
+
+### ⚙️ CI/CD Pipeline
+![Pipeline](images/pipeline.png)
+
+### 📸 App Output
+![Output Screen](images/output_screen.png)
+
 
 ```
 
